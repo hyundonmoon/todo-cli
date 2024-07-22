@@ -11,30 +11,35 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const TODOS = path.join(__dirname, '..', 'todos.json');
 
+interface Todo {
+  todo: string;
+  done: boolean;
+}
+
 // Helper functions
-const readTodos = () => {
+const readTodos = (): Todo[] => {
   try {
     if (!fs.existsSync(TODOS)) {
       return [];
     }
-    const data = fs.readFileSync(TODOS);
+    const data = fs.readFileSync(TODOS, 'utf-8');
     return JSON.parse(data);
   } catch (error) {
     console.error('Uh oh, an occurred while reading your todo list.');
-    exit(1);
+    process.exit(1);
   }
 };
 
-const writeTodos = (todos) => {
+const writeTodos = (todos: Todo[]) => {
   try {
     fs.writeFileSync(TODOS, JSON.stringify(todos, null, 2));
   } catch (err) {
     console.error('Uh oh, an error occurred while adding your new todo');
-    exit(1);
+    process.exit(1);
   }
 };
 
-const logTodos = (todos, showCheckbox = true) => {
+const logTodos = (todos: Todo[], showCheckbox = true) => {
   const checked = chalk.green('[x]');
   const unchecked = chalk.red('[ ]');
 
@@ -137,13 +142,16 @@ program
       required: true,
     });
 
-    const removedIndicesMap = removedIndices.reduce((acc, curr) => {
-      acc[curr] = true;
-      return acc;
-    }, {});
+    const removedIndicesMap = removedIndices.reduce(
+      (acc, curr) => {
+        acc[curr] = true;
+        return acc;
+      },
+      {} as Record<number, boolean>
+    );
 
-    const newTodos = [];
-    const removedTodos = [];
+    const newTodos: Todo[] = [];
+    const removedTodos: Todo[] = [];
 
     todos.forEach((item, idx) => {
       if (removedIndicesMap[idx]) {
@@ -180,7 +188,7 @@ program
       required: true,
     });
 
-    const toggledItems = [];
+    const toggledItems: Todo[] = [];
 
     checkedIndices.forEach((idx) => {
       const todoItem = todos[idx];
