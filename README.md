@@ -24,7 +24,13 @@ A command-line tool to manage your to-do list. This tool allows you to add, list
    npm install
    ```
 
-3. **Link the package locally:**
+3. **Build app:**
+
+   ```bash
+   npm run build
+   ```
+
+4. **Link the package locally:**
    ```bash
    npm link
    ```
