@@ -249,4 +249,15 @@ program
     logTodos(markedTodos);
   });
 
+program
+  .command('remove-done')
+  .alias('rmd')
+  .description('Remove all todo items marked as done')
+  .action(() => {
+    const todos = readTodos();
+    const filteredTodos = todos.filter((todo) => !todo.done);
+    writeTodos(filteredTodos);
+    console.log('Removed all todo items marked as done.');
+  });
+
 program.parse();
