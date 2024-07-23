@@ -31,9 +31,16 @@ A command-line tool to manage your to-do list. This tool allows you to add, list
    ```
 
 4. **Link the package locally:**
+
    ```bash
-   npm link
+   npm run link-todo
    ```
+
+   This script will:
+
+   - Unlink the package if it was linked before.
+   - Set the dist/index.js file as executable.
+   - Link the package again.
 
 ## Usage
 
@@ -111,4 +118,21 @@ $ todo remove
 ? Which todo item would you like to delete?
  ◯ [ ] Write README
  ◯ [ ] Learn Node.js
+```
+
+### Mark Todos As Done
+
+```bash
+$ todo mark-done
+? Which todo item would you like to mark as done?
+ ◯ [ ] Write README
+ ◯ [ ] Learn Node.js
+ Marked the following items as done:
+```
+
+### Remove Finished Todos
+
+```bash
+$ todo remove-done
+Removed all todo items marked as done.
 ```

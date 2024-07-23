@@ -5,7 +5,8 @@
   "main": "bin/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "build": "tsc",
+    "link-todo": "npm unlink todo-cli && chmod +x dist/index.js && npm link"
   },
   "keywords": [],
   "author": "Hyun Don Moon",

@@ -219,7 +219,7 @@ program
     const options = todos.filter((todo) => !todo.done);
 
     const markedTodos = await checkbox({
-      message: 'Which todo item status would you like to mark as done?',
+      message: 'Which todo item would you like to mark as done?',
       choices: options.map((item) => ({
         name: `[ ] ${item.todo}`,
         value: item,
