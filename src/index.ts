@@ -6,12 +6,14 @@ import { program } from 'commander';
 import chalk from 'chalk';
 import checkbox from '@inquirer/checkbox';
 import { fileURLToPath } from 'url';
+import { v4 as uuidv4 } from 'uuid';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const TODOS = path.join(__dirname, '..', 'todos.json');
 
 interface Todo {
+  id: string;
   todo: string;
   done: boolean;
 }
@@ -63,7 +65,7 @@ program
     const todos = readTodos();
 
     if (todos) {
-      todos.push({ todo, done: false });
+      todos.push({ todo, done: false, id: uuidv4() });
       writeTodos(todos);
       console.log(chalk.green(`Added new todo: ${todo}`));
     }
