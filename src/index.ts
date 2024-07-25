@@ -19,19 +19,12 @@ program
   .command('toggle', 'Toggle todo items status')
   .command('mark-done', 'Mark todo items as done')
   .alias('md')
-  .executableDir('./commands');
-
-program
-  .command('remove-done')
+  .command('remove-done', 'Remove all todo items marked as done')
   .alias('rmd')
-  .description('Remove all todo items marked as done')
-  .action(() => {
-    const todos = readTodos();
-    const filteredTodos = todos.filter((todo) => !todo.done);
-    writeTodos(filteredTodos);
-    console.log('Removed all todo items marked as done.');
-  });
+  .executableDir('./commands');
 
 program.parse();
 
-process.addListener('uncaughtException', (err) => {});
+process.addListener('uncaughtException', (err) => {
+  console.log('An unknown error occured.');
+});
