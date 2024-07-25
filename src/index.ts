@@ -6,21 +6,7 @@ import checkbox from '@inquirer/checkbox';
 import { v4 as uuidv4 } from 'uuid';
 import readTodos from './helper/readTodos.js';
 import writeTodos from './helper/writeTodos.js';
-
-const logTodos = (todos: Todo[], showCheckbox = true) => {
-  const checked = chalk.green('[x]');
-  const unchecked = chalk.red('[ ]');
-
-  todos.forEach((item, index) => {
-    const checkbox = item.done ? checked : unchecked;
-
-    if (showCheckbox) {
-      console.log(`${index + 1}. ${checkbox} ${item.todo}`);
-    } else {
-      console.log(`${index + 1}. ${item.todo}`);
-    }
-  });
-};
+import logTodos from './helper/logTodos.js';
 
 program.version('1.0.0').description('To-Do List');
 
