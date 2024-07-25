@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "link-todo": "npm unlink todo-cli && chmod +x dist/index.js && npm link"
+    "todo-link": "npm unlink todo-cli && chmod +x dist/index.js && npm link",
+    "dev-watch": "tsc-watch --noClear --onSuccess \"npm run todo-link\""
   },
   "keywords": [],
   "author": "Hyun Don Moon",
@@ -25,6 +26,7 @@
     "@types/node": "^20.14.11",
     "@types/uuid": "^10.0.0",
     "prettier": "^3.3.3",
+    "tsc-watch": "^6.2.0",
     "typescript": "^5.5.3"
   }
 }
