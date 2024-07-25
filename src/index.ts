@@ -261,3 +261,5 @@ program
   });
 
 program.parse();
+
+process.addListener('uncaughtException', (err) => {});
