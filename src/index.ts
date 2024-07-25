@@ -10,18 +10,7 @@ import logTodos from './helper/logTodos.js';
 
 program.version('1.0.0').description('To-Do List');
 
-program
-  .command('add <todo>')
-  .description('Add a new todo')
-  .action((todo) => {
-    const todos = readTodos();
-
-    if (todos) {
-      todos.push({ todo, done: false, id: uuidv4() });
-      writeTodos(todos);
-      console.log(chalk.green(`Added new todo: ${todo}`));
-    }
-  });
+program.command('add <todo>', 'Add a new todo').executableDir('./commands');
 
 program
   .command('list', { isDefault: true })
