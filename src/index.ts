@@ -16,87 +16,10 @@ program
   .alias('ls')
   .command('remove', 'Select todo items to remove')
   .alias('rm')
-  .executableDir('./commands');
-
-program
-  .command('toggle')
-  .description('Toggle todo items status')
-  .action(async () => {
-    const todos = readTodos();
-
-    if (todos.length === 0) {
-      console.log(chalk.yellow('No todos found.'));
-      return;
-    }
-
-    const checkedIndices = await checkbox({
-      message: 'Which todo item status would you like to toggle?',
-      choices: todos.map((item, idx) => ({
-        name: `${item.done ? '[x]' : '[ ]'} ${item.todo}`,
-        value: idx,
-      })),
-      pageSize: 12,
-      required: true,
-    });
-
-    const toggledItems: Todo[] = [];
-
-    checkedIndices.forEach((idx) => {
-      const todoItem = todos[idx];
-
-      todos[idx] = { ...todoItem, done: !todoItem.done };
-      toggledItems.push(todos[idx]);
-    });
-
-    writeTodos(todos);
-    console.log('Toggled the statuses of the following items: ');
-    logTodos(toggledItems);
-  });
-
-program
-  .command('mark-done')
+  .command('toggle', 'Toggle todo items status')
+  .command('mark-done', 'Mark todo items as done')
   .alias('md')
-  .description('Mark todo items as done')
-  .action(async () => {
-    const todos = readTodos();
-
-    if (todos.length === 0) {
-      console.log(chalk.yellow('No todos found.'));
-      return;
-    }
-
-    const options = todos.filter((todo) => !todo.done);
-
-    const markedTodos = await checkbox({
-      message: 'Which todo item would you like to mark as done?',
-      choices: options.map((item) => ({
-        name: `[ ] ${item.todo}`,
-        value: item,
-      })),
-      pageSize: 12,
-      required: true,
-    });
-
-    const markedIdsMap = markedTodos.reduce(
-      (acc, curr) => {
-        acc[curr.id] = true;
-        return acc;
-      },
-      {} as Record<string, true>
-    );
-
-    const updatedTodos = todos.map((todo) => {
-      if (markedIdsMap[todo.id]) {
-        todo.done = true;
-      }
-
-      return todo;
-    });
-
-    writeTodos(updatedTodos);
-    console.log('Marked the following items as done:');
-    logTodos(markedTodos);
-  });
+  .executableDir('./commands');
 
 program
   .command('remove-done')
