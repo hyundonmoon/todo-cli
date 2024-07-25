@@ -1,45 +1,11 @@
 #!/usr/bin/env node
 
-import fs from 'fs';
-import path from 'path';
 import { program } from 'commander';
 import chalk from 'chalk';
 import checkbox from '@inquirer/checkbox';
-import { fileURLToPath } from 'url';
 import { v4 as uuidv4 } from 'uuid';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const TODOS = path.join(__dirname, '..', 'todos.json');
-
-interface Todo {
-  id: string;
-  todo: string;
-  done: boolean;
-}
-
-// Helper functions
-const readTodos = (): Todo[] => {
-  try {
-    if (!fs.existsSync(TODOS)) {
-      return [];
-    }
-    const data = fs.readFileSync(TODOS, 'utf-8');
-    return JSON.parse(data);
-  } catch (error) {
-    console.error('Uh oh, an occurred while reading your todo list.');
-    process.exit(1);
-  }
-};
-
-const writeTodos = (todos: Todo[]) => {
-  try {
-    fs.writeFileSync(TODOS, JSON.stringify(todos, null, 2));
-  } catch (err) {
-    console.error('Uh oh, an error occurred while adding your new todo');
-    process.exit(1);
-  }
-};
+import readTodos from './helper/readTodos.js';
+import writeTodos from './helper/writeTodos.js';
 
 const logTodos = (todos: Todo[], showCheckbox = true) => {
   const checked = chalk.green('[x]');
@@ -72,7 +38,7 @@ program
   });
 
 program
-  .command('list')
+  .command('list', { isDefault: true })
   .alias('ls')
   .description('List your todos')
   .option('-d, done', 'List only finished todos')
