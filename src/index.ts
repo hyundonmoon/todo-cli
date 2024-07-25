@@ -14,54 +14,9 @@ program
   .command('add <todo>', 'Add a new todo')
   .command('list', 'List your todos', { isDefault: true })
   .alias('ls')
-  .executableDir('./commands');
-
-program
-  .command('remove')
+  .command('remove', 'Select todo items to remove')
   .alias('rm')
-  .description('Remove todo items')
-  .action(async () => {
-    const todos = readTodos();
-
-    if (todos.length === 0) {
-      console.log(chalk.yellow('No todos found.'));
-      return;
-    }
-
-    const removedIndices = await checkbox({
-      message: 'Which todo item would you like to delete?',
-      choices: todos.map((item, idx) => ({
-        name: `${item.done ? '[x]' : '[ ]'} ${item.todo}`,
-        value: idx,
-      })),
-      pageSize: 12,
-      required: true,
-    });
-
-    const removedIndicesMap = removedIndices.reduce(
-      (acc, curr) => {
-        acc[curr] = true;
-        return acc;
-      },
-      {} as Record<number, boolean>
-    );
-
-    const newTodos: Todo[] = [];
-    const removedTodos: Todo[] = [];
-
-    todos.forEach((item, idx) => {
-      if (removedIndicesMap[idx]) {
-        removedTodos.push(item);
-      } else {
-        newTodos.push(item);
-      }
-    });
-
-    writeTodos(newTodos);
-
-    console.log('Removed the following todos: ');
-    logTodos(removedTodos);
-  });
+  .executableDir('./commands');
 
 program
   .command('toggle')
