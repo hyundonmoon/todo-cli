@@ -33,7 +33,7 @@ A command-line tool to manage your to-do list. This tool allows you to add, list
 4. **Link the package locally:**
 
    ```bash
-   npm run link-todo
+   npm run todo-link
    ```
 
    This script will:
