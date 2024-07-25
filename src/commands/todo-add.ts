@@ -19,9 +19,13 @@ function addTodo(todo: string) {
   }
 }
 
-if (program.args.length) {
-  const [todoItem] = program.args;
-  addTodo(todoItem);
-} else {
-  console.error('Enter a todo item.');
+try {
+  if (program.args.length) {
+    const [todoItem] = program.args;
+    addTodo(todoItem);
+  } else {
+    console.log('Enter a todo item.');
+  }
+} catch (e) {
+  console.log('An error occured while adding the todo item. Please try again');
 }

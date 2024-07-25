@@ -57,4 +57,10 @@ function listTodos(options: Record<string, boolean>) {
   }
 }
 
-listTodos(program.opts());
+try {
+  listTodos(program.opts());
+} catch (e) {
+  console.log(
+    'An error occured while listing your todo items. Please try again.'
+  );
+}
