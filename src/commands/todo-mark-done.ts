@@ -52,7 +52,7 @@ async function markTodoItemsAsDone() {
 }
 
 try {
-  markTodoItemsAsDone();
+  await markTodoItemsAsDone();
 } catch (e) {
   console.log(
     'An error occured when marking todo items as done. Please try again.'
