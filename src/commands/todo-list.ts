@@ -19,40 +19,22 @@ function listTodos(options: Record<string, boolean>) {
     return;
   }
 
-  const checked = chalk.green('[x]');
-  const unchecked = chalk.red('[ ]');
-
   if (options.all) {
     logTodos(todos);
   } else if (options.done) {
-    let index = 0;
-    todos.forEach((item) => {
-      // skip remaining todos
-      if (!item.done) {
-        return;
-      }
+    const doneTodos = todos.filter((todo) => todo.done);
 
-      index++;
-      console.log(`${index}. ${checked} ${item.todo}`);
-    });
-
-    if (index === 0) {
+    if (!doneTodos.length) {
       console.log(chalk.yellow('No finished todos found.'));
+    } else {
+      logTodos(doneTodos);
     }
   } else {
-    let index = 0;
-    todos.forEach((item) => {
-      // skip finished todos
-      if (item.done) {
-        return;
-      }
-
-      index++;
-      console.log(`${index}. ${unchecked} ${item.todo}`);
-    });
-
-    if (index === 0) {
+    const notDoneTodos = todos.filter((todo) => !todo.done);
+    if (!notDoneTodos.length) {
       console.log(chalk.yellow('No remaining todos.'));
+    } else {
+      logTodos(notDoneTodos);
     }
   }
 }

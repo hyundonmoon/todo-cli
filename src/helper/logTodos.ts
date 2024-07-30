@@ -1,16 +1,13 @@
-import chalk from 'chalk';
+import formatDate from './formatDate.js';
+import truncateTitle from './truncateTitle.js';
 
-export default function logTodos(todos: Todo[], showCheckbox = true): void {
-  const checked = chalk.green('[x]');
-  const unchecked = chalk.red('[ ]');
+export default function logTodos(todos: Todo[]): void {
+  const formattedTodos = todos.map((todo) => ({
+    id: todo.id.slice(0, 8),
+    title: truncateTitle(todo.todo),
+    done: todo.done ? `[v]` : '[ ]',
+    'created at': todo.createdAt ? formatDate(todo.createdAt) : 'Unknown',
+  }));
 
-  todos.forEach((item, index) => {
-    const checkbox = item.done ? checked : unchecked;
-
-    if (showCheckbox) {
-      console.log(`${index + 1}. ${checkbox} ${item.todo}`);
-    } else {
-      console.log(`${index + 1}. ${item.todo}`);
-    }
-  });
+  console.table(formattedTodos);
 }
