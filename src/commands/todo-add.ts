@@ -20,7 +20,6 @@ function addTodo(todo: string) {
       createdAt: new Date(),
     };
 
-    todos.push(newTodo);
     writeTodos([...todos, newTodo]);
     console.log(chalk.green(`Added new todo: ${todo}`));
   }
