@@ -13,8 +13,15 @@ function addTodo(todo: string) {
   const todos = readTodos();
 
   if (todos) {
-    todos.push({ todo, done: false, id: uuidv4() });
-    writeTodos(todos);
+    const newTodo: Todo = {
+      todo,
+      done: false,
+      id: uuidv4(),
+      createdAt: new Date(),
+    };
+
+    todos.push(newTodo);
+    writeTodos([...todos, newTodo]);
     console.log(chalk.green(`Added new todo: ${todo}`));
   }
 }
