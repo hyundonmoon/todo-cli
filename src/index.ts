@@ -16,6 +16,7 @@ program
   .alias('md')
   .command('remove-done', 'Remove all todo items marked as done')
   .alias('rmd')
+  .command('clear', 'Remove all todo items')
   .executableDir('./commands');
 
 program.parse();
