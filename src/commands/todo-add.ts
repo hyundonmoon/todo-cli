@@ -16,7 +16,7 @@ function addTodo(todo: string) {
     const newTodo: Todo = {
       todo,
       done: false,
-      id: uuidv4(),
+      id: uuidv4().slice(0, 8),
       createdAt: new Date(),
     };
 

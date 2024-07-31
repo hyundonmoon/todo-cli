@@ -1,12 +1,6 @@
 #!/usr/bin/env node
 
 import { program } from 'commander';
-import chalk from 'chalk';
-import checkbox from '@inquirer/checkbox';
-import { v4 as uuidv4 } from 'uuid';
-import readTodos from './helper/readTodos.js';
-import writeTodos from './helper/writeTodos.js';
-import logTodos from './helper/logTodos.js';
 
 program.version('1.0.0').description('To-Do List');
 
@@ -16,6 +10,7 @@ program
   .alias('ls')
   .command('remove', 'Select todo items to remove')
   .alias('rm')
+  .option('-id, --id <ids...>', 'Specify ids of todos to remove')
   .command('toggle', 'Toggle todo items status')
   .command('mark-done', 'Mark todo items as done')
   .alias('md')
