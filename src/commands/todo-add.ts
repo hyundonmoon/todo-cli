@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import readTodos from '../helper/readTodos.js';
 import writeTodos from '../helper/writeTodos.js';
 import chalk from 'chalk';
+import logTodos from '../helper/logTodos.js';
 
 const program = new Command();
 
@@ -21,7 +22,8 @@ function addTodo(todo: string) {
     };
 
     writeTodos([...todos, newTodo]);
-    console.log(chalk.green(`Added new todo: ${todo}`));
+    console.log(chalk.green(`Added tje following todo:`));
+    logTodos([newTodo]);
   }
 }
 
