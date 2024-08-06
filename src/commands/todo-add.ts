@@ -22,7 +22,7 @@ function addTodo(todo: string) {
     };
 
     writeTodos([...todos, newTodo]);
-    console.log(chalk.green(`Added tje following todo:`));
+    console.log(chalk.green(`Added the following todo:`));
     logTodos([newTodo]);
   }
 }
