@@ -6,7 +6,6 @@ export default function logTodos(todos: Todo[]): void {
     id: todo.id,
     title: truncateTitle(todo.todo),
     done: todo.done ? `[v]` : '[ ]',
-    'created at': todo.createdAt ? formatDate(todo.createdAt) : 'Unknown',
   }));
 
   console.table(formattedTodos);
