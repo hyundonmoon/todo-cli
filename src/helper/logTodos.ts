@@ -1,4 +1,3 @@
-import formatDate from './formatDate.js';
 import truncateTitle from './truncateTitle.js';
 
 export default function logTodos(todos: Todo[]): void {
