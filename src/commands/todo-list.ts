@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-import { Command } from 'commander';
-import readTodos from '../helper/readTodos.js';
 import chalk from 'chalk';
+import { Command } from 'commander';
 import logTodos from '../helper/logTodos.js';
+import readTodos from '../helper/readTodos.js';
 
 const program = new Command();
 
@@ -11,7 +11,7 @@ program.option('-a, all', 'List all todos');
 
 program.parse();
 
-function listTodos(options: Record<string, boolean>) {
+function listTodos(options: { done?: boolean; all?: boolean }) {
   const todos = readTodos();
 
   if (todos.length === 0) {
@@ -19,9 +19,9 @@ function listTodos(options: Record<string, boolean>) {
     return;
   }
 
-  if (options.all) {
+  if (!!options.all) {
     logTodos(todos);
-  } else if (options.done) {
+  } else if (!!options.done) {
     const doneTodos = todos.filter((todo) => todo.done);
 
     if (!doneTodos.length) {

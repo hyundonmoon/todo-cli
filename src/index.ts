@@ -10,7 +10,6 @@ program
   .alias('ls')
   .command('remove', 'Select todo items to remove')
   .alias('rm')
-  .option('-id, --id <ids...>', 'Specify ids of todos to remove')
   .command('toggle', 'Toggle todo items status')
   .command('mark-done', 'Mark todo items as done')
   .alias('md')

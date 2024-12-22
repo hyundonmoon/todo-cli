@@ -1,19 +1,15 @@
 #!/usr/bin/env node
+import chalk from 'chalk';
 import { Command } from 'commander';
 import { v4 as uuidv4 } from 'uuid';
-import readTodos from '../helper/readTodos.js';
-import writeTodos from '../helper/writeTodos.js';
-import chalk from 'chalk';
-import logTodos from '../helper/logTodos.js';
+import db from '../helper/db.js';
+import { logTodo } from '../helper/logTodos.js';
 
 const program = new Command();
-
 program.parse();
 
-function addTodo(todo: string) {
-  const todos = readTodos();
-
-  if (todos) {
+async function addTodo(todo: string): Promise<Todo> {
+  try {
     const newTodo: Todo = {
       todo,
       done: false,
@@ -21,19 +17,29 @@ function addTodo(todo: string) {
       createdAt: new Date(),
     };
 
-    writeTodos([...todos, newTodo]);
-    console.log(chalk.green(`Added the following todo:`));
-    logTodos([newTodo]);
+    db.data.todos.push(newTodo);
+    await db.write();
+
+    return newTodo;
+  } catch (e) {
+    throw e;
   }
 }
 
 try {
   if (program.args.length) {
     const [todoItem] = program.args;
-    addTodo(todoItem);
+    const newTodo = await addTodo(todoItem);
+
+    console.log(chalk.green(`Added the following todo:`));
+    logTodo(newTodo);
   } else {
-    console.log('Enter a todo item.');
+    console.log(chalk.red('Please provide a todo item to add'));
   }
 } catch (e) {
-  console.log('An error occured while adding the todo item. Please try again');
+  console.log(
+    chalk.red(
+      'An error occurred while trying to add a todo item. Please try again.'
+    )
+  );
 }

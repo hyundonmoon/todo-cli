@@ -1,4 +1,4 @@
-import truncateTitle from './truncateTitle.js';
+import { truncateTitle } from './utils.js';
 
 export default function logTodos(todos: Todo[]): void {
   const formattedTodos = todos.map((todo) => ({
@@ -8,4 +8,8 @@ export default function logTodos(todos: Todo[]): void {
   }));
 
   console.table(formattedTodos);
+}
+
+export function logTodo(todo: Todo) {
+  logTodos([todo]);
 }

@@ -1,15 +1,23 @@
 #!/usr/bin/env node
-import { Command } from 'commander';
-import writeTodos from '../helper/writeTodos.js';
-import chalk from 'chalk';
 import { confirm } from '@inquirer/prompts';
+import chalk from 'chalk';
+import { Command } from 'commander';
+import db from '../helper/db.js';
 
 const program = new Command();
-
 program.parse();
 
 async function clearTodos() {
-  const answer = await confirm({
+  try {
+    db.data.todos = [];
+    await db.write();
+  } catch (e) {
+    throw e;
+  }
+}
+
+try {
+  const confirmed = await confirm({
     message:
       'WARNING: This action will permanently delete all todos. Are you sure you want to proceed?',
     default: false,
@@ -21,8 +29,9 @@ async function clearTodos() {
     },
   });
 
-  if (answer) {
-    writeTodos([]);
+  if (confirmed) {
+    await clearTodos();
+
     console.log(
       chalk.green(
         'All todos have been cleared! Your list is now fresh and ready for new tasks.'
@@ -31,10 +40,8 @@ async function clearTodos() {
   } else {
     console.log(chalk.yellowBright('Action canceled. No todos were deleted.'));
   }
-}
-
-try {
-  await clearTodos();
 } catch (e) {
-  console.log(chalk.yellowBright('Action canceled. No todos were deleted.'));
+  console.log(
+    chalk.red('An error occurred while clearing todo items. Please try again.')
+  );
 }

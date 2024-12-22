@@ -1,31 +1,36 @@
 #!/usr/bin/env node
 
-import chalk from 'chalk';
 import { Command } from 'commander';
-import logTodos from '../helper/logTodos.js';
+import console from 'console';
+import db from '../helper/db.js';
+import { logTodo } from '../helper/logTodos.js';
 import readTodos from '../helper/readTodos.js';
-import writeTodos from '../helper/writeTodos.js';
 
 const program = new Command();
-
 await program.parseAsync();
 
-async function popTodo() {
+async function popPendingTodo() {
   const todos = readTodos();
-  const popped = todos?.pop();
+  const pending = todos.filter((todo) => !todo.done);
+  const popped = pending.pop();
 
-  if (!todos || !popped) {
-    console.log(chalk.yellow('No todos found.'));
+  if (!popped) {
     return;
   }
 
-  writeTodos([...todos]);
-  console.log('Popping the last todo item from the list.');
-  logTodos([popped]);
+  db.data.todos = todos.filter((todo) => todo.id !== popped.id);
+  await db.write();
+  return popped;
 }
 
 try {
-  await popTodo();
+  const popped = await popPendingTodo();
+  if (popped) {
+    console.log('Popping the last pending todo item from the list.');
+    logTodo(popped);
+  } else {
+    console.log('The todo list is empty.');
+  }
 } catch (e) {
   console.log(
     'An error occured while popping the last todo item. Please try again.'
